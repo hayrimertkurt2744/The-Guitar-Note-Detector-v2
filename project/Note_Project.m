@@ -6,7 +6,7 @@ clc;
 %%
 sound = sound(:,1);
 
-F_sound = fft(sound);
+F_sound = fft(sound); 
 
 N = length(abs(F_sound));
 %using the given interval in terms of N,the signal is sampled in this
@@ -20,6 +20,7 @@ sound_1 = sound(41505:84139);
 F_sound_1 = fft(sound_1);
 
 N_1 = length(abs(F_sound_1));
+%sampling and nyquist criteria
 fgrid_1 = Fs*linspace(-(N_1-1)/N_1,(N_1-1)/N_1, N_1);
 %%
 %Parseval's Method
@@ -34,12 +35,13 @@ RHS=sum(abs(F_sound_1.*F_sound_1))/N_1;
 disp('this is RHS value:');
 disp(RHS);
 
-if RHS==LHS
+if floor(RHS)==floor(LHS)
     isEqual_1=1;
-    disp('1_test_passed')
+    disp('-----------1_test_passed-----------')
 else
     disp('1_ERROR:A')
 end
+
 %%
 sound_2 = sound(85278:134220);
 
@@ -61,9 +63,9 @@ RHS_2=sum(abs(F_sound_2.*F_sound_2))/N_2;
 disp('this is RHS value:');
 disp(RHS_2);
 
-if RHS_2==LHS_2
+if floor(RHS_2)==floor(LHS_2)
     isEqual_2=1;
-     disp('2_test_passed')
+     disp('----------2_test_passed------------')
 else
     isEqual_2=0;
     disp('2_ERROR:A')
@@ -88,9 +90,9 @@ RHS_3=sum(abs(F_sound_3.*F_sound_3))/N_3;
 disp('this is RHS value:');
 disp(RHS_3);
 
-if RHS_3==LHS_3
+if floor(RHS_3)==floor(LHS_3)
     isEqual_3=1;
-     disp('3_test_passed')
+     disp('----------3_test_passed------------')
 else
     isEqual_3=0;
     disp('3_ERROR:A')
@@ -115,9 +117,9 @@ RHS_4=sum(abs(F_sound_4.*F_sound_4))/N_4;
 disp('this is RHS value:');
 disp(RHS_4);
 
-if RHS_4==LHS_4
+if floor(RHS_4)==floor(LHS_4)
     isEqual_4=1;
-     disp('4_test_passed')
+     disp('---------4_test_passed----------')
 else
     isEqual_4=0;
     disp('4_ERROR:A')
@@ -142,9 +144,9 @@ RHS_5=sum(abs(F_sound_5.*F_sound_5))/N_5;
 disp('this is RHS value:');
 disp(RHS_5);
 
-if RHS_5==LHS_5
+if floor(RHS_5)==floor(LHS_5)
     isEqual_5=1;
-     disp('5_test_passed')
+     disp('--------5_test_passed----------')
 else
     isEqual_5=0;
     disp('5_ERROR:A')
@@ -168,125 +170,214 @@ disp(LHS_6);
 
 RHS_6=sum(abs(F_sound_6.*F_sound_6))/N_6;
 disp('this is RHS value:');
-disp(RHS_3);
+disp(RHS_6);
 
-if RHS_6==LHS_6
+if floor(RHS_6)==floor(LHS_6)
     isEqual_6=1;
-     disp('6_test_passed')
+     disp('-----------6_test_passed-------------')
 else
     isEqual_6=0;
     disp('6_ERROR:A')
 end
 %%
 figure,
-subplot(211);plot(sound);title("All");
-subplot(212);plot(fgrid,fftshift(abs(F_sound)));title("All Freq");
+subplot(211);plot(sound);title("x(t)");
+subplot(212);plot(fgrid,fftshift(abs(F_sound)));title("X(F)");
 %%
 figure,
-subplot(211);plot(sound_1);title("One");
-subplot(212);plot(fgrid_1,fftshift(abs(F_sound_1)));title("One Freq");
+subplot(211);plot(sound_1);title("x_1(t)");
+subplot(212);plot(fgrid_1,fftshift(abs(F_sound_1)));title("X_1(F)");
 %%
 figure,
-subplot(211);plot(sound_2);title("Two");
-subplot(212);plot(fgrid_2,fftshift(abs(F_sound_2)));title("Two Freq");
+subplot(211);plot(sound_2);title("x_2(t)");
+subplot(212);plot(fgrid_2,fftshift(abs(F_sound_2)));title("X_2(F)");
 %%
 figure,
-subplot(211);plot(sound_3);title("Three");
-subplot(212);plot(fgrid_3,fftshift(abs(F_sound_3)));title("Three Freq");
+subplot(211);plot(sound_3);title("x_3(t)");
+subplot(212);plot(fgrid_3,fftshift(abs(F_sound_3)));title("X_3(F)");
 %%
 figure,
-subplot(211);plot(sound_4);title("Four");
-subplot(212);plot(fgrid_4,fftshift(abs(F_sound_4)));title("Four Freq");
+subplot(211);plot(sound_4);title("x_4(t)");
+subplot(212);plot(fgrid_4,fftshift(abs(F_sound_4)));title("X_4(F)");
 %%
 figure,
-subplot(211);plot(sound_5);title("Five");
-subplot(212);plot(fgrid_5,fftshift(abs(F_sound_5)));title("Five Freq");
+subplot(211);plot(sound_5);title("x_5(t)");
+subplot(212);plot(fgrid_5,fftshift(abs(F_sound_5)));title("X_5(F)");
 %%
 figure,
-subplot(211);plot(sound_6);title("Six");
-subplot(212);plot(fgrid_6,fftshift(abs(F_sound_6)));title("Six Freq");
-%%
+subplot(211);plot(sound_6);title("x_6(t)");
+subplot(212);plot(fgrid_6,fftshift(abs(F_sound_6)));title("X_6(F)");
 
 %%
 index_1 = find(fftshift(abs(F_sound_1))==max(fftshift(abs(F_sound_1))));
 max_1 = fgrid_1(index_1(2));
+f_1 = index_1 * (Fs/N_1) - (Fs/2);
+disp(f_1(2));
 
 index_2 = find(fftshift(abs(F_sound_2))==max(fftshift(abs(F_sound_2))));
 max_2 = fgrid_2(index_2(2));
+f_2 = index_2 * (Fs/N_2) - (Fs/2);
+disp(f_2(2));
 
 index_3 = find(fftshift(abs(F_sound_3))==max(fftshift(abs(F_sound_3))));
 max_3 = fgrid_3(index_3(2));
+f_3 = abs(index_3 * (Fs/N_3) - (Fs/2));
+disp(f_3(2));
 
 index_4 = find(fftshift(abs(F_sound_4))==max(fftshift(abs(F_sound_4))));
 max_4 = fgrid_4(index_4(2));
+f_4 = index_4 * (Fs/N_4) - (Fs/2);
+disp(f_4(2));
 
 index_5 = find(fftshift(abs(F_sound_5))==max(fftshift(abs(F_sound_5))));
 max_5= fgrid_5(index_5(2));
+f_5 = index_5 * (Fs/N_5) - (Fs/2);
+disp((f_5(2)));
 
 index_6 = find(fftshift(abs(F_sound_6))==max(fftshift(abs(F_sound_6))));
 max_6 = fgrid_6(index_6(2));
+f_6 = index_6 * (Fs/N_6) - (Fs/2);
+disp(f_6(2));
 
-F_sound_list=[floor(max_1) floor(max_2) floor(max_3) floor(max_4) floor(max_5) floor(max_6)];
-disp(F_sound_list);
+F_sound_list=[floor(f_1(2)) floor(f_2(2)) floor(f_3(2)) floor(f_4(2)) floor(f_5(2)) floor(f_6(2))];
+disp(F_sound_list)
 
 %%
 disp("The Detected Notes After The Analysis:");
-
 for i=1:6
-     if F_sound_list(i)>=349 && F_sound_list(i)<370
-        disp("F-1F-1st String or 20F-Second String");
-
-     elseif F_sound_list(i)>=370 && F_sound_list(i)<392
-        disp("F#-2F-1st String or 20F-Second String");
-
-     elseif F_sound_list(i)>=392 && F_sound_list(i)<415
-        disp("G-4F-1st String or 20F-Second String");
-
-     elseif F_sound_list(i)>=415 && F_sound_list(i)<440
-        disp("G#-5F-1st String or 20F-Second String");
+    if F_sound_list(i)>=84 && F_sound_list(i)<89
+        disp("1ST-F");
         
-    elseif F_sound_list(i)>=440 && F_sound_list(i)<466
-        disp("A-5F-1st String or 20F-Second String");
-
-    elseif F_sound_list(i)>=466 && F_sound_list(i)<494
-        disp("A#-6F-1st String or 20F-Second String");
-
-    elseif F_sound_list(i)>=494 && F_sound_list(i)<523
-        disp("B-7F-1st String or 20F-Second String");
-        
-    elseif F_sound_list(i)>=523 && F_sound_list(i)<554
-        disp("C-8F-1st String or 20F-Second String");
+    elseif F_sound_list(i)>=89 && F_sound_list(i)<94
+        disp("1ST-F#");
   
-    elseif F_sound_list(i)>=554 && F_sound_list(i)<587
-        disp("C#-9F-1st String or 14F-Second String");
+    elseif F_sound_list(i)>=94 && F_sound_list(i)<100
+        disp("1ST-G");
 
-    elseif F_sound_list(i)>=587 && F_sound_list(i)<622
-        disp("D-10F-1st String or 15F-Second String");
+    elseif F_sound_list(i)>=100 && F_sound_list(i)<106
+        disp("1ST-G#");
     
-    elseif F_sound_list(i)>=622 && F_sound_list(i)<659
-        disp("D#-11F-1st String or 16F-Second String");
+    elseif F_sound_list(i)>=106 && F_sound_list(i)<112
+        disp("1ST-A");
  
-    elseif F_sound_list(i)>=659 && F_sound_list(i)<698
-        disp("E-12F-1st String or 17F-Second String");
+    elseif F_sound_list(i)>=112 && F_sound_list(i)<119
+        disp("1ST-A#");
 
-    elseif F_sound_list(i)>=698 && F_sound_list(i)<740
-        disp("F-13F-1st String or 18F-Second String");
+    elseif F_sound_list(i)>=119 && F_sound_list(i)<126
+        disp("1ST-B");
 
-    elseif F_sound_list(i)>=740 && F_sound_list(i)<784
-        disp("F#-14F-1st String or 19F-Second String");
+    elseif F_sound_list(i)>=126 && F_sound_list(i)<134
+        disp("1ST-C");
+          elseif F_sound_list(i)>=134 && F_sound_list(i)<142
+        disp("1ST-C#");
+  
+    elseif F_sound_list(i)>=142 && F_sound_list(i)<150
+        disp("1ST-D");
 
-    elseif F_sound_list(i)>=784 && F_sound_list(i)<831
-        disp("G 15F-1st String or 20F-Second String ");
+    elseif F_sound_list(i)>=150 && F_sound_list(i)<159
+        disp("1ST-D#");
     
-    elseif F_sound_list(i)>=831 && F_sound_list(i)<880
-        disp("G#-16F-1st String");
+    elseif F_sound_list(i)>=159 && F_sound_list(i)<169
+        disp("1ST-E");
+ 
+    elseif F_sound_list(i)>=169 && F_sound_list(i)<179
+        disp("2ND-F");
 
-    elseif F_sound_list(i)>=932 && F_sound_list(i)<988
-        disp("G-15F-1st String");
+    elseif F_sound_list(i)>=179 && F_sound_list(i)<189
+        disp("2ND-F#");
 
-     elseif F_sound_list(i)>=988 && F_sound_list(i)<1047
-        disp("G-15F-1st String");
+    elseif F_sound_list(i)>=189 && F_sound_list(i)<200
+        disp("2ND-G");
+
+    elseif F_sound_list(i)>=200 && F_sound_list(i)<213
+        disp("2ND-G#"); 
+
+    elseif F_sound_list(i)>=213 && F_sound_list(i)<225
+        disp("2ND-A");
+
+    elseif F_sound_list(i)>=225 && F_sound_list(i)<238
+        disp("2ND-A#");
+
+    elseif F_sound_list(i)>=238 && F_sound_list(i)<253
+        disp("2ND-B");
+
+    elseif F_sound_list(i)>=253 && F_sound_list(i)<268
+        disp("2ND-C");
+  
+    elseif F_sound_list(i)>=268 && F_sound_list(i)<283
+        disp("2ND-C#");
+
+    elseif F_sound_list(i)>=283 && F_sound_list(i)<301
+        disp("2ND-D");
+    
+    elseif F_sound_list(i)>=301 && F_sound_list(i)<318
+        disp("2ND-D#");
+ 
+    elseif F_sound_list(i)>=318 && F_sound_list(i)<337
+        disp("2ND-E");
+
+    elseif F_sound_list(i)>=337 && F_sound_list(i)<357
+        disp("3RD-F");
+
+    elseif F_sound_list(i)>=357 && F_sound_list(i)<379
+        disp("3RD-F#");
+
+    elseif F_sound_list(i)>=379 && F_sound_list(i)<401
+        disp("3RD-G");
+  
+    elseif F_sound_list(i)>=401 && F_sound_list(i)<425
+        disp("3RD-G#");
+
+    elseif F_sound_list(i)>=425 && F_sound_list(i)<451
+        disp("3RD-A");
+    
+    elseif F_sound_list(i)>=451 && F_sound_list(i)<477
+        disp("3RD-A#");
+ 
+    elseif F_sound_list(i)>=477 && F_sound_list(i)<506
+        disp("3RD-B");
+
+    elseif F_sound_list(i)>=506 && F_sound_list(i)<536
+        disp("3RD-C");
+
+    elseif F_sound_list(i)>=536 && F_sound_list(i)<567
+        disp("3RD-C#");
+    
+    elseif F_sound_list(i)>=567 && F_sound_list(i)<601
+        disp("63RD-D");
+  
+    elseif F_sound_list(i)>=601 && F_sound_list(i)<637
+        disp("3RD-D#");
+
+    elseif F_sound_list(i)>=637 && F_sound_list(i)<675
+        disp("3RD-E");
+    
+    elseif F_sound_list(i)>=675 && F_sound_list(i)<715
+        disp("4TH-F");
+ 
+    elseif F_sound_list(i)>=715 && F_sound_list(i)<758
+        disp("4TH-F#");
+
+    elseif F_sound_list(i)>=758 && F_sound_list(i)<803
+        disp("4TH-G");
+
+    elseif F_sound_list(i)>=803 && F_sound_list(i)<851
+        disp("4TH-G#");
+
+     elseif F_sound_list(i)>=851 && F_sound_list(i)<902
+        disp("4TH-A");
+    
+    elseif F_sound_list(i)>=902 && F_sound_list(i)<955
+        disp("4TH-A#");
+  
+    elseif F_sound_list(i)>=955 && F_sound_list(i)<1012
+        disp("4TH-B");
+
+    elseif F_sound_list(i)>=1012 && F_sound_list(i)<1073
+        disp("4TH-C");
+   
     else
         disp("none");
     end
 end
+
